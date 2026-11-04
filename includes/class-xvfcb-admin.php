@@ -144,6 +144,8 @@ class XVFCB_Admin {
 				'confirmSet'  => __( 'Delete this set and its buttons?', 'xevn-floating-contact-buttons' ),
 				'newSet'      => __( 'New set', 'xevn-floating-contact-buttons' ),
 				'maxReached'  => __( 'Maximum number of buttons reached.', 'xevn-floating-contact-buttons' ),
+				'hidePreview' => __( 'Hide preview', 'xevn-floating-contact-buttons' ),
+				'showPreview' => __( 'Show preview', 'xevn-floating-contact-buttons' ),
 			)
 		);
 	}
@@ -190,6 +192,18 @@ class XVFCB_Admin {
 			<?php endif; ?>
 			<input id="<?php echo esc_attr( $id ); ?>" type="range" min="<?php echo esc_attr( $min ); ?>" max="<?php echo esc_attr( $max ); ?>" step="<?php echo esc_attr( $step ); ?>" name="<?php echo esc_attr( self::name( $key ) ); ?>" value="<?php echo esc_attr( $value ); ?>" data-unit="<?php echo esc_attr( $unit ); ?>">
 			<output class="xvfcb-range__value" for="<?php echo esc_attr( $id ); ?>"><?php echo esc_html( $value . $unit ); ?></output>
+		</span>
+		<?php
+	}
+
+	/**
+	 * Print the Phone / Computer switch. Every copy on the page stays in sync.
+	 */
+	private static function device_switch() {
+		?>
+		<span class="xvfcb-seg" role="group" aria-label="<?php esc_attr_e( 'Device', 'xevn-floating-contact-buttons' ); ?>">
+			<button type="button" class="xvfcb-seg__btn" data-xvfcb-device="mobile" aria-pressed="false"><span class="dashicons dashicons-smartphone" aria-hidden="true"></span><?php esc_html_e( 'Phone', 'xevn-floating-contact-buttons' ); ?></button>
+			<button type="button" class="xvfcb-seg__btn is-active" data-xvfcb-device="desktop" aria-pressed="true"><span class="dashicons dashicons-desktop" aria-hidden="true"></span><?php esc_html_e( 'Computer', 'xevn-floating-contact-buttons' ); ?></button>
 		</span>
 		<?php
 	}
@@ -396,13 +410,13 @@ class XVFCB_Admin {
 			<h1>XeVN Floating Contact Buttons</h1>
 
 			<div class="xvfcb-preview-bar">
-				<span class="xvfcb-preview-bar__title"><?php esc_html_e( 'Live preview', 'xevn-floating-contact-buttons' ); ?></span>
-				<span class="xvfcb-seg" role="group" aria-label="<?php esc_attr_e( 'Live preview', 'xevn-floating-contact-buttons' ); ?>">
-					<button type="button" class="xvfcb-seg__btn" data-xvfcb-preview="mobile" aria-pressed="false"><?php esc_html_e( 'Phone', 'xevn-floating-contact-buttons' ); ?></button>
-					<button type="button" class="xvfcb-seg__btn is-active" data-xvfcb-preview="desktop" aria-pressed="true"><?php esc_html_e( 'Computer', 'xevn-floating-contact-buttons' ); ?></button>
-					<button type="button" class="xvfcb-seg__btn" data-xvfcb-preview="off" aria-pressed="false"><?php esc_html_e( 'Hide', 'xevn-floating-contact-buttons' ); ?></button>
-				</span>
-				<span class="xvfcb-preview-bar__hint"><?php esc_html_e( 'The buttons appear in the corner of this page and update as you edit. Click "Save Changes" to apply them to the website. Working hours and delayed showing are not simulated.', 'xevn-floating-contact-buttons' ); ?></span>
+				<span class="xvfcb-preview-bar__title"><?php esc_html_e( 'Settings and preview for', 'xevn-floating-contact-buttons' ); ?></span>
+				<?php self::device_switch(); ?>
+				<button type="button" class="xvfcb-eye" data-xvfcb-eye aria-pressed="false">
+					<span class="dashicons dashicons-hidden" aria-hidden="true"></span>
+					<span class="xvfcb-eye__text"><?php esc_html_e( 'Hide preview', 'xevn-floating-contact-buttons' ); ?></span>
+				</button>
+				<span class="xvfcb-preview-bar__hint"><?php esc_html_e( 'Pick a device to show its own settings below and preview the buttons in the corner of this page. Other settings apply to both. Click "Save Changes" to apply them to the website. Working hours and delayed showing are not simulated.', 'xevn-floating-contact-buttons' ); ?></span>
 			</div>
 
 			<form method="post" action="options.php">
@@ -450,9 +464,19 @@ class XVFCB_Admin {
 					<span><strong><?php esc_html_e( 'Show buttons', 'xevn-floating-contact-buttons' ); ?></strong> &mdash; <?php esc_html_e( 'Display the floating buttons on the website', 'xevn-floating-contact-buttons' ); ?></span>
 				</label>
 
-				<div class="xvfcb-cards">
+				<?php
+				$is_bar        = ( 'bar' === $s['mobile_style'] );
+				$group_desktop = in_array( $s['collapse'], array( 'desktop', 'always' ), true );
+				$group_mobile  = in_array( $s['collapse'], array( 'mobile', 'always' ), true );
+				?>
+				<div class="xvfcb-device-head">
+					<h3><?php esc_html_e( 'Device settings', 'xevn-floating-contact-buttons' ); ?></h3>
+					<?php self::device_switch(); ?>
+				</div>
+
+				<div class="xvfcb-cards xvfcb-device-panel" data-xvfcb-panel="desktop">
 					<section class="xvfcb-card">
-						<h3 class="xvfcb-card__title"><?php esc_html_e( 'Position & size', 'xevn-floating-contact-buttons' ); ?></h3>
+						<h3 class="xvfcb-card__title"><span class="dashicons dashicons-desktop" aria-hidden="true"></span> <?php esc_html_e( 'Position & size on computers', 'xevn-floating-contact-buttons' ); ?></h3>
 						<div class="xvfcb-field">
 							<label class="xvfcb-field__label" for="xvfcb-position"><?php esc_html_e( 'Position', 'xevn-floating-contact-buttons' ); ?></label>
 							<div class="xvfcb-field__control">
@@ -472,13 +496,11 @@ class XVFCB_Admin {
 						<div class="xvfcb-field">
 							<span class="xvfcb-field__label"><?php esc_html_e( 'Button size', 'xevn-floating-contact-buttons' ); ?></span>
 							<div class="xvfcb-field__control">
-								<?php self::range( 'size', __( 'Computer', 'xevn-floating-contact-buttons' ), 36, 80, 1, 'px', $s['size'] ); ?>
-								<?php self::range( 'size_mobile', __( 'Phone', 'xevn-floating-contact-buttons' ), 32, 72, 1, 'px', $s['size_mobile'] ); ?>
-								<p class="description"><?php esc_html_e( 'The phone size applies to screens narrower than the mobile breakpoint, in both the floating style and the bottom bar (the featured button is drawn larger automatically).', 'xevn-floating-contact-buttons' ); ?></p>
+								<?php self::range( 'size', '', 36, 80, 1, 'px', $s['size'] ); ?>
 							</div>
 						</div>
 						<div class="xvfcb-field">
-							<span class="xvfcb-field__label"><?php esc_html_e( 'Spacing', 'xevn-floating-contact-buttons' ); ?></span>
+							<span class="xvfcb-field__label"><?php esc_html_e( 'Spacing between buttons', 'xevn-floating-contact-buttons' ); ?></span>
 							<div class="xvfcb-field__control">
 								<?php self::range( 'gap', '', 0, 40, 1, 'px', $s['gap'] ); ?>
 							</div>
@@ -486,44 +508,49 @@ class XVFCB_Admin {
 					</section>
 
 					<section class="xvfcb-card">
-						<h3 class="xvfcb-card__title"><?php esc_html_e( 'Button style', 'xevn-floating-contact-buttons' ); ?></h3>
+						<h3 class="xvfcb-card__title"><span class="dashicons dashicons-desktop" aria-hidden="true"></span> <?php esc_html_e( 'Behaviour on computers', 'xevn-floating-contact-buttons' ); ?></h3>
 						<div class="xvfcb-field">
-							<label class="xvfcb-field__label" for="xvfcb-layout"><?php esc_html_e( 'Style', 'xevn-floating-contact-buttons' ); ?></label>
+							<label class="xvfcb-field__label" for="xvfcb-collapse-desktop"><?php esc_html_e( 'Group buttons', 'xevn-floating-contact-buttons' ); ?></label>
 							<div class="xvfcb-field__control">
-								<select id="xvfcb-layout" name="<?php echo esc_attr( self::name( 'layout' ) ); ?>">
-									<option value="icon" <?php selected( $s['layout'], 'icon' ); ?>><?php esc_html_e( 'Round icon', 'xevn-floating-contact-buttons' ); ?></option>
-									<option value="label" <?php selected( $s['layout'], 'label' ); ?>><?php esc_html_e( 'Icon with label', 'xevn-floating-contact-buttons' ); ?></option>
+								<select id="xvfcb-collapse-desktop" class="xvfcb-collapse" name="<?php echo esc_attr( self::name( 'collapse_desktop' ) ); ?>">
+									<option value="off" <?php selected( $group_desktop, false ); ?>><?php esc_html_e( 'Off - always show all buttons', 'xevn-floating-contact-buttons' ); ?></option>
+									<option value="on" <?php selected( $group_desktop, true ); ?>><?php esc_html_e( 'On - one contact button opens the list', 'xevn-floating-contact-buttons' ); ?></option>
 								</select>
+							</div>
+						</div>
+						<div class="xvfcb-field">
+							<span class="xvfcb-field__label"><?php esc_html_e( 'Tooltip', 'xevn-floating-contact-buttons' ); ?></span>
+							<div class="xvfcb-field__control">
 								<label class="xvfcb-check"><input type="checkbox" name="<?php echo esc_attr( self::name( 'show_tooltip' ) ); ?>" value="1" <?php checked( $s['show_tooltip'], 1 ); ?>> <?php esc_html_e( 'Show the label as a tooltip on hover (round icon style)', 'xevn-floating-contact-buttons' ); ?></label>
 							</div>
 						</div>
 						<div class="xvfcb-field">
-							<label class="xvfcb-field__label" for="xvfcb-animation"><?php esc_html_e( 'Attention effect', 'xevn-floating-contact-buttons' ); ?></label>
+							<label class="xvfcb-field__label" for="xvfcb-desktop-call"><?php esc_html_e( 'Call button', 'xevn-floating-contact-buttons' ); ?></label>
 							<div class="xvfcb-field__control">
-								<select id="xvfcb-animation" name="<?php echo esc_attr( self::name( 'animation' ) ); ?>">
-									<option value="none" <?php selected( $s['animation'], 'none' ); ?>><?php esc_html_e( 'None', 'xevn-floating-contact-buttons' ); ?></option>
-									<option value="shake" <?php selected( $s['animation'], 'shake' ); ?>><?php esc_html_e( 'Ringing icon', 'xevn-floating-contact-buttons' ); ?></option>
-									<option value="pulse" <?php selected( $s['animation'], 'pulse' ); ?>><?php esc_html_e( 'Pulse ring', 'xevn-floating-contact-buttons' ); ?></option>
-									<option value="bounce" <?php selected( $s['animation'], 'bounce' ); ?>><?php esc_html_e( 'Bounce', 'xevn-floating-contact-buttons' ); ?></option>
+								<select id="xvfcb-desktop-call" name="<?php echo esc_attr( self::name( 'desktop_call' ) ); ?>">
+									<option value="popup" <?php selected( $s['desktop_call'], 'popup' ); ?>><?php esc_html_e( 'Show the number with a copy button', 'xevn-floating-contact-buttons' ); ?></option>
+									<option value="link" <?php selected( $s['desktop_call'], 'link' ); ?>><?php esc_html_e( 'Open the tel: link (like on phones)', 'xevn-floating-contact-buttons' ); ?></option>
 								</select>
-								<p class="description"><?php esc_html_e( 'Applied only to buttons with "Attention effect" ticked. Turned off automatically for visitors who prefer reduced motion.', 'xevn-floating-contact-buttons' ); ?></p>
+								<p class="description"><?php esc_html_e( 'Most computers cannot place calls, so showing the number lets visitors dial it on their phone.', 'xevn-floating-contact-buttons' ); ?></p>
 							</div>
 						</div>
 					</section>
+				</div>
 
+				<div class="xvfcb-cards xvfcb-device-panel" data-xvfcb-panel="mobile" hidden>
 					<section class="xvfcb-card">
-						<h3 class="xvfcb-card__title"><?php esc_html_e( 'On phones', 'xevn-floating-contact-buttons' ); ?></h3>
+						<h3 class="xvfcb-card__title"><span class="dashicons dashicons-smartphone" aria-hidden="true"></span> <?php esc_html_e( 'Style on phones', 'xevn-floating-contact-buttons' ); ?></h3>
 						<div class="xvfcb-field">
-							<label class="xvfcb-field__label" for="xvfcb-mobile-style"><?php esc_html_e( 'Style on phones', 'xevn-floating-contact-buttons' ); ?></label>
+							<label class="xvfcb-field__label" for="xvfcb-mobile-style"><?php esc_html_e( 'Layout', 'xevn-floating-contact-buttons' ); ?></label>
 							<div class="xvfcb-field__control">
 								<select id="xvfcb-mobile-style" name="<?php echo esc_attr( self::name( 'mobile_style' ) ); ?>">
 									<option value="float" <?php selected( $s['mobile_style'], 'float' ); ?>><?php esc_html_e( 'Floating buttons in the corner', 'xevn-floating-contact-buttons' ); ?></option>
 									<option value="bar" <?php selected( $s['mobile_style'], 'bar' ); ?>><?php esc_html_e( 'Horizontal bar at the bottom of the screen', 'xevn-floating-contact-buttons' ); ?></option>
 								</select>
-								<p class="description"><?php esc_html_e( 'The bar shows every button side by side with its label. Choose one button as "Featured" to make it larger and raised in the middle; choosing another one switches it automatically, so there is never more than one. Computers keep the floating buttons. Grouping is not used in the bar.', 'xevn-floating-contact-buttons' ); ?></p>
+								<p class="description"><?php esc_html_e( 'The bar shows every button side by side with its label. Choose one button as "Featured" to make it larger and raised in the middle; choosing another one switches it automatically, so there is never more than one.', 'xevn-floating-contact-buttons' ); ?></p>
 							</div>
 						</div>
-						<div class="xvfcb-field xvfcb-bar-field"<?php echo ( 'bar' === $s['mobile_style'] ) ? '' : ' hidden'; ?>>
+						<div class="xvfcb-field xvfcb-bar-field"<?php echo $is_bar ? '' : ' hidden'; ?>>
 							<span class="xvfcb-field__label"><?php esc_html_e( 'Bar', 'xevn-floating-contact-buttons' ); ?></span>
 							<div class="xvfcb-field__control">
 								<div class="xvfcb-colors">
@@ -539,16 +566,89 @@ class XVFCB_Admin {
 								<?php self::range( 'bar_font', __( 'Label font size', 'xevn-floating-contact-buttons' ), 10, 18, 1, 'px', $s['bar_font'], 'xvfcb-bar-font' ); ?>
 							</div>
 						</div>
-						<div class="xvfcb-field">
-							<label class="xvfcb-field__label" for="xvfcb-collapse"><?php esc_html_e( 'Group buttons', 'xevn-floating-contact-buttons' ); ?></label>
+						<div class="xvfcb-field xvfcb-float-field"<?php echo $is_bar ? ' hidden' : ''; ?>>
+							<label class="xvfcb-field__label" for="xvfcb-collapse-mobile"><?php esc_html_e( 'Group buttons', 'xevn-floating-contact-buttons' ); ?></label>
 							<div class="xvfcb-field__control">
-								<select id="xvfcb-collapse" name="<?php echo esc_attr( self::name( 'collapse' ) ); ?>">
-									<option value="off" <?php selected( $s['collapse'], 'off' ); ?>><?php esc_html_e( 'Off - always show all buttons', 'xevn-floating-contact-buttons' ); ?></option>
-									<option value="mobile" <?php selected( $s['collapse'], 'mobile' ); ?>><?php esc_html_e( 'On mobile only', 'xevn-floating-contact-buttons' ); ?></option>
-									<option value="always" <?php selected( $s['collapse'], 'always' ); ?>><?php esc_html_e( 'On all devices', 'xevn-floating-contact-buttons' ); ?></option>
+								<select id="xvfcb-collapse-mobile" class="xvfcb-collapse" name="<?php echo esc_attr( self::name( 'collapse_mobile' ) ); ?>">
+									<option value="off" <?php selected( $group_mobile, false ); ?>><?php esc_html_e( 'Off - always show all buttons', 'xevn-floating-contact-buttons' ); ?></option>
+									<option value="on" <?php selected( $group_mobile, true ); ?>><?php esc_html_e( 'On - one contact button opens the list', 'xevn-floating-contact-buttons' ); ?></option>
 								</select>
-								<p class="description"><?php esc_html_e( 'Shows a single contact button; visitors tap it to open the list. Useful when you have many buttons.', 'xevn-floating-contact-buttons' ); ?></p>
-								<div class="xvfcb-colors xvfcb-group-field"<?php echo ( 'off' === $s['collapse'] ) ? ' hidden' : ''; ?>>
+								<p class="description"><?php esc_html_e( 'Useful when you have many buttons on a small screen.', 'xevn-floating-contact-buttons' ); ?></p>
+							</div>
+						</div>
+						<div class="xvfcb-field">
+							<span class="xvfcb-field__label"><?php esc_html_e( 'Mobile breakpoint', 'xevn-floating-contact-buttons' ); ?></span>
+							<div class="xvfcb-field__control">
+								<?php self::range( 'breakpoint', '', 320, 1280, 4, 'px', $s['breakpoint'] ); ?>
+								<p class="description"><?php esc_html_e( 'Screens narrower than this width use the phone settings. Detection uses CSS only, so it works with page caching.', 'xevn-floating-contact-buttons' ); ?></p>
+							</div>
+						</div>
+					</section>
+
+					<section class="xvfcb-card">
+						<h3 class="xvfcb-card__title"><span class="dashicons dashicons-smartphone" aria-hidden="true"></span> <?php esc_html_e( 'Position & size on phones', 'xevn-floating-contact-buttons' ); ?></h3>
+						<div class="xvfcb-field xvfcb-float-field"<?php echo $is_bar ? ' hidden' : ''; ?>>
+							<label class="xvfcb-field__label" for="xvfcb-position-mobile"><?php esc_html_e( 'Position', 'xevn-floating-contact-buttons' ); ?></label>
+							<div class="xvfcb-field__control">
+								<select id="xvfcb-position-mobile" name="<?php echo esc_attr( self::name( 'position_mobile' ) ); ?>">
+									<option value="right" <?php selected( $s['position_mobile'], 'right' ); ?>><?php esc_html_e( 'Bottom right', 'xevn-floating-contact-buttons' ); ?></option>
+									<option value="left" <?php selected( $s['position_mobile'], 'left' ); ?>><?php esc_html_e( 'Bottom left', 'xevn-floating-contact-buttons' ); ?></option>
+								</select>
+							</div>
+						</div>
+						<div class="xvfcb-field xvfcb-float-field"<?php echo $is_bar ? ' hidden' : ''; ?>>
+							<span class="xvfcb-field__label"><?php esc_html_e( 'Distance from edges', 'xevn-floating-contact-buttons' ); ?></span>
+							<div class="xvfcb-field__control">
+								<?php self::range( 'offset_x_mobile', __( 'Side', 'xevn-floating-contact-buttons' ), 0, 200, 1, 'px', $s['offset_x_mobile'] ); ?>
+								<?php self::range( 'offset_y_mobile', __( 'Bottom', 'xevn-floating-contact-buttons' ), 0, 400, 1, 'px', $s['offset_y_mobile'] ); ?>
+							</div>
+						</div>
+						<div class="xvfcb-field">
+							<span class="xvfcb-field__label"><?php esc_html_e( 'Button size', 'xevn-floating-contact-buttons' ); ?></span>
+							<div class="xvfcb-field__control">
+								<?php self::range( 'size_mobile', '', 32, 72, 1, 'px', $s['size_mobile'] ); ?>
+								<p class="description xvfcb-bar-field"<?php echo $is_bar ? '' : ' hidden'; ?>><?php esc_html_e( 'In the bar, the featured button is drawn larger automatically.', 'xevn-floating-contact-buttons' ); ?></p>
+							</div>
+						</div>
+						<div class="xvfcb-field xvfcb-float-field"<?php echo $is_bar ? ' hidden' : ''; ?>>
+							<span class="xvfcb-field__label"><?php esc_html_e( 'Spacing between buttons', 'xevn-floating-contact-buttons' ); ?></span>
+							<div class="xvfcb-field__control">
+								<?php self::range( 'gap_mobile', '', 0, 40, 1, 'px', $s['gap_mobile'] ); ?>
+							</div>
+						</div>
+						<p class="description xvfcb-bar-field"<?php echo $is_bar ? '' : ' hidden'; ?>><?php esc_html_e( 'The bar always spans the bottom of the screen and shares the width evenly between the buttons, so position, distance and spacing are not used.', 'xevn-floating-contact-buttons' ); ?></p>
+					</section>
+				</div>
+
+				<h3 class="xvfcb-both-title"><?php esc_html_e( 'Both devices', 'xevn-floating-contact-buttons' ); ?></h3>
+				<div class="xvfcb-cards">
+					<section class="xvfcb-card">
+						<h3 class="xvfcb-card__title"><?php esc_html_e( 'Button style', 'xevn-floating-contact-buttons' ); ?></h3>
+						<div class="xvfcb-field">
+							<label class="xvfcb-field__label" for="xvfcb-layout"><?php esc_html_e( 'Style', 'xevn-floating-contact-buttons' ); ?></label>
+							<div class="xvfcb-field__control">
+								<select id="xvfcb-layout" name="<?php echo esc_attr( self::name( 'layout' ) ); ?>">
+									<option value="icon" <?php selected( $s['layout'], 'icon' ); ?>><?php esc_html_e( 'Round icon', 'xevn-floating-contact-buttons' ); ?></option>
+									<option value="label" <?php selected( $s['layout'], 'label' ); ?>><?php esc_html_e( 'Icon with label', 'xevn-floating-contact-buttons' ); ?></option>
+								</select>
+							</div>
+						</div>
+						<div class="xvfcb-field">
+							<label class="xvfcb-field__label" for="xvfcb-animation"><?php esc_html_e( 'Attention effect', 'xevn-floating-contact-buttons' ); ?></label>
+							<div class="xvfcb-field__control">
+								<select id="xvfcb-animation" name="<?php echo esc_attr( self::name( 'animation' ) ); ?>">
+									<option value="none" <?php selected( $s['animation'], 'none' ); ?>><?php esc_html_e( 'None', 'xevn-floating-contact-buttons' ); ?></option>
+									<option value="shake" <?php selected( $s['animation'], 'shake' ); ?>><?php esc_html_e( 'Ringing icon', 'xevn-floating-contact-buttons' ); ?></option>
+									<option value="pulse" <?php selected( $s['animation'], 'pulse' ); ?>><?php esc_html_e( 'Pulse ring', 'xevn-floating-contact-buttons' ); ?></option>
+									<option value="bounce" <?php selected( $s['animation'], 'bounce' ); ?>><?php esc_html_e( 'Bounce', 'xevn-floating-contact-buttons' ); ?></option>
+								</select>
+								<p class="description"><?php esc_html_e( 'Applied only to buttons with "Attention effect" ticked. Turned off automatically for visitors who prefer reduced motion.', 'xevn-floating-contact-buttons' ); ?></p>
+							</div>
+						</div>
+						<div class="xvfcb-field xvfcb-group-field"<?php echo ( 'off' === $s['collapse'] ) ? ' hidden' : ''; ?>>
+							<span class="xvfcb-field__label"><?php esc_html_e( 'Group button', 'xevn-floating-contact-buttons' ); ?></span>
+							<div class="xvfcb-field__control">
+								<div class="xvfcb-colors">
 									<span class="xvfcb-bar-color">
 										<span class="xvfcb-mini-label"><?php esc_html_e( 'Group button label', 'xevn-floating-contact-buttons' ); ?></span>
 										<input type="text" class="regular-text" name="<?php echo esc_attr( self::name( 'collapse_label' ) ); ?>" value="<?php echo esc_attr( $s['collapse_label'] ); ?>" placeholder="<?php esc_attr_e( 'Contact us', 'xevn-floating-contact-buttons' ); ?>">
@@ -579,16 +679,6 @@ class XVFCB_Admin {
 									<?php self::range( 'reveal_delay', __( 'Delay', 'xevn-floating-contact-buttons' ), 0, 60, 1, 's', $s['reveal_delay'] ); ?>
 								</div>
 								<p class="description"><?php esc_html_e( 'Keeps the top of the page clear on first view. Pages too short to scroll show the buttons right away.', 'xevn-floating-contact-buttons' ); ?></p>
-							</div>
-						</div>
-						<div class="xvfcb-field">
-							<label class="xvfcb-field__label" for="xvfcb-desktop-call"><?php esc_html_e( 'Call button on computers', 'xevn-floating-contact-buttons' ); ?></label>
-							<div class="xvfcb-field__control">
-								<select id="xvfcb-desktop-call" name="<?php echo esc_attr( self::name( 'desktop_call' ) ); ?>">
-									<option value="popup" <?php selected( $s['desktop_call'], 'popup' ); ?>><?php esc_html_e( 'Show the number with a copy button', 'xevn-floating-contact-buttons' ); ?></option>
-									<option value="link" <?php selected( $s['desktop_call'], 'link' ); ?>><?php esc_html_e( 'Open the tel: link (like on phones)', 'xevn-floating-contact-buttons' ); ?></option>
-								</select>
-								<p class="description"><?php esc_html_e( 'Most computers cannot place calls, so showing the number lets visitors dial it on their phone.', 'xevn-floating-contact-buttons' ); ?></p>
 							</div>
 						</div>
 						<div class="xvfcb-field">
@@ -658,17 +748,6 @@ class XVFCB_Admin {
 
 				<h2><?php esc_html_e( 'Visibility', 'xevn-floating-contact-buttons' ); ?></h2>
 				<div class="xvfcb-cards">
-					<section class="xvfcb-card">
-						<h3 class="xvfcb-card__title"><?php esc_html_e( 'Phones and computers', 'xevn-floating-contact-buttons' ); ?></h3>
-						<div class="xvfcb-field">
-							<span class="xvfcb-field__label"><?php esc_html_e( 'Mobile breakpoint', 'xevn-floating-contact-buttons' ); ?></span>
-							<div class="xvfcb-field__control">
-								<?php self::range( 'breakpoint', '', 320, 1280, 4, 'px', $s['breakpoint'] ); ?>
-								<p class="description"><?php esc_html_e( 'Screens narrower than this width count as mobile. Detection uses CSS only, so it works with page caching.', 'xevn-floating-contact-buttons' ); ?></p>
-							</div>
-						</div>
-					</section>
-
 					<section class="xvfcb-card">
 						<h3 class="xvfcb-card__title"><?php esc_html_e( 'Pages without buttons', 'xevn-floating-contact-buttons' ); ?></h3>
 						<div class="xvfcb-field">

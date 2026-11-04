@@ -148,6 +148,10 @@ class XVFCB_Settings {
 			'size'            => 52,
 			'size_mobile'     => 48,
 			'gap'             => 10,
+			'position_mobile' => 'right',
+			'offset_x_mobile' => 16,
+			'offset_y_mobile' => 20,
+			'gap_mobile'      => 10,
 			'layout'          => 'icon',
 			'show_tooltip'    => 1,
 			'breakpoint'      => 768,
@@ -218,9 +222,30 @@ class XVFCB_Settings {
 			if ( ! is_array( $saved ) ) {
 				$saved = array();
 			}
+			// Phone placement saved before it had its own settings: use the
+			// computer values so the buttons stay where they were.
+			foreach ( self::mobile_fallbacks() as $mobile => $desktop ) {
+				if ( ! isset( $saved[ $mobile ] ) && isset( $saved[ $desktop ] ) ) {
+					$saved[ $mobile ] = $saved[ $desktop ];
+				}
+			}
 			self::$cache = array_merge( self::defaults(), $saved );
 		}
 		return self::$cache;
+	}
+
+	/**
+	 * Phone settings and the computer setting they default to.
+	 *
+	 * @return array
+	 */
+	public static function mobile_fallbacks() {
+		return array(
+			'position_mobile' => 'position',
+			'offset_x_mobile' => 'offset_x',
+			'offset_y_mobile' => 'offset_y',
+			'gap_mobile'      => 'gap',
+		);
 	}
 
 	/**
@@ -257,6 +282,13 @@ class XVFCB_Settings {
 		$in  = is_array( $input ) ? $input : array();
 		$out = array();
 
+		// Settings files exported before the phone settings existed.
+		foreach ( self::mobile_fallbacks() as $mobile => $desktop ) {
+			if ( ! isset( $in[ $mobile ] ) && isset( $in[ $desktop ] ) ) {
+				$in[ $mobile ] = $in[ $desktop ];
+			}
+		}
+
 		$out['enabled']         = empty( $in['enabled'] ) ? 0 : 1;
 		$out['position']        = ( isset( $in['position'] ) && 'left' === $in['position'] ) ? 'left' : 'right';
 		$out['offset_x']        = self::int_range( isset( $in['offset_x'] ) ? $in['offset_x'] : null, 0, 200, $def['offset_x'] );
@@ -264,6 +296,10 @@ class XVFCB_Settings {
 		$out['size']            = self::int_range( isset( $in['size'] ) ? $in['size'] : null, 36, 80, $def['size'] );
 		$out['size_mobile']     = self::int_range( isset( $in['size_mobile'] ) ? $in['size_mobile'] : null, 32, 72, $def['size_mobile'] );
 		$out['gap']             = self::int_range( isset( $in['gap'] ) ? $in['gap'] : null, 0, 40, $def['gap'] );
+		$out['position_mobile'] = ( isset( $in['position_mobile'] ) && 'left' === $in['position_mobile'] ) ? 'left' : 'right';
+		$out['offset_x_mobile'] = self::int_range( isset( $in['offset_x_mobile'] ) ? $in['offset_x_mobile'] : null, 0, 200, $def['offset_x_mobile'] );
+		$out['offset_y_mobile'] = self::int_range( isset( $in['offset_y_mobile'] ) ? $in['offset_y_mobile'] : null, 0, 400, $def['offset_y_mobile'] );
+		$out['gap_mobile']      = self::int_range( isset( $in['gap_mobile'] ) ? $in['gap_mobile'] : null, 0, 40, $def['gap_mobile'] );
 		$out['layout']          = ( isset( $in['layout'] ) && 'label' === $in['layout'] ) ? 'label' : 'icon';
 		$out['show_tooltip']    = empty( $in['show_tooltip'] ) ? 0 : 1;
 		$out['breakpoint']      = self::int_range( isset( $in['breakpoint'] ) ? $in['breakpoint'] : null, 320, 1280, $def['breakpoint'] );
@@ -305,7 +341,14 @@ class XVFCB_Settings {
 		$bar_text              = isset( $in['bar_text'] ) ? sanitize_hex_color( $in['bar_text'] ) : '';
 		$out['bar_text']       = $bar_text ? $bar_text : $def['bar_text'];
 		$out['bar_font']       = self::int_range( isset( $in['bar_font'] ) ? $in['bar_font'] : null, 10, 18, $def['bar_font'] );
-		$out['collapse']       = ( isset( $in['collapse'] ) && in_array( $in['collapse'], array( 'off', 'mobile', 'always' ), true ) ) ? $in['collapse'] : 'off';
+		if ( isset( $in['collapse_desktop'] ) || isset( $in['collapse_mobile'] ) ) {
+			// Settings page: one choice per device.
+			$group_desktop   = isset( $in['collapse_desktop'] ) && 'on' === $in['collapse_desktop'];
+			$group_mobile    = isset( $in['collapse_mobile'] ) && 'on' === $in['collapse_mobile'];
+			$out['collapse'] = $group_desktop ? ( $group_mobile ? 'always' : 'desktop' ) : ( $group_mobile ? 'mobile' : 'off' );
+		} else {
+			$out['collapse'] = ( isset( $in['collapse'] ) && in_array( $in['collapse'], array( 'off', 'mobile', 'desktop', 'always' ), true ) ) ? $in['collapse'] : 'off';
+		}
 		$out['collapse_label'] = isset( $in['collapse_label'] ) ? substr( sanitize_text_field( $in['collapse_label'] ), 0, 40 ) : '';
 		$toggle                = isset( $in['toggle_color'] ) ? sanitize_hex_color( $in['toggle_color'] ) : '';
 		$out['toggle_color']   = $toggle ? $toggle : $def['toggle_color'];

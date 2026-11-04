@@ -234,14 +234,17 @@ class XVFCB_Frontend {
 
 		$css  = $mq_mobile . '{.xvfcb .xvfcb-dev-desktop{display:none!important}}';
 		$css .= $mq_desktop . '{.xvfcb .xvfcb-dev-mobile{display:none!important}}';
-		// Phone button size (overrides the inline desktop size).
-		$css .= $mq_mobile . '{.xvfcb{--xvfcb-size:var(--xvfcb-size-m)!important}}';
+		// Phone size, distance from the edges and spacing (override the inline computer values).
+		$css .= $mq_mobile . '{.xvfcb{--xvfcb-size:var(--xvfcb-size-m)!important;--xvfcb-x:var(--xvfcb-x-m)!important;--xvfcb-y:var(--xvfcb-y-m)!important;--xvfcb-gap:var(--xvfcb-gap-m)!important}';
+		// Phone corner (floating style only; the bar spans the full width).
+		$css .= '.xvfcb.xvfcb--m-right{right:var(--xvfcb-x,16px);left:auto;align-items:flex-end}.xvfcb.xvfcb--m-left{left:var(--xvfcb-x,16px);right:auto;align-items:flex-start}}';
 		if ( 'bar' === $s['mobile_style'] ) {
 			// Room kept under the page content: bar padding + icon + gap + one label line.
 			$space = (int) $s['size_mobile'] + 16 + (int) ceil( (int) $s['bar_font'] * 1.2 );
 			$css  .= $mq_mobile . '{body.xvfcb-has-bar{--xvfcb-bar-space:' . $space . 'px}}';
 		}
 		$css .= $mq_mobile . '{.xvfcb--js.xvfcb--collapse-mobile .xvfcb__toggle{display:inline-flex}.xvfcb--js.xvfcb--collapse-mobile:not(.is-open) .xvfcb__list{display:none}}';
+		$css .= $mq_desktop . '{.xvfcb--js.xvfcb--collapse-desktop .xvfcb__toggle{display:inline-flex}.xvfcb--js.xvfcb--collapse-desktop:not(.is-open) .xvfcb__list{display:none}}';
 		wp_add_inline_style( 'xvfcb-frontend', $css );
 
 		if ( 'bar' === $s['mobile_style'] ) {
@@ -358,6 +361,8 @@ class XVFCB_Frontend {
 		);
 		if ( 'bar' === $s['mobile_style'] ) {
 			$classes[] = 'xvfcb--bar';
+		} else {
+			$classes[] = 'xvfcb--m-' . ( ( 'left' === $s['position_mobile'] ) ? 'left' : 'right' );
 		}
 		if ( 'immediate' !== $s['reveal'] ) {
 			$classes[] = 'xvfcb--waiting';
@@ -367,7 +372,7 @@ class XVFCB_Frontend {
 		}
 
 		$style = sprintf(
-			'--xvfcb-size:%1$dpx;--xvfcb-x:%2$dpx;--xvfcb-y:%3$dpx;--xvfcb-gap:%4$dpx;--xvfcb-z:%5$d;--xvfcb-bar-bg:%6$s;--xvfcb-bar-text:%7$s;--xvfcb-bar-font:%8$dpx;--xvfcb-size-m:%9$dpx;--xvfcb-count:%10$d;',
+			'--xvfcb-size:%1$dpx;--xvfcb-x:%2$dpx;--xvfcb-y:%3$dpx;--xvfcb-gap:%4$dpx;--xvfcb-z:%5$d;--xvfcb-bar-bg:%6$s;--xvfcb-bar-text:%7$s;--xvfcb-bar-font:%8$dpx;--xvfcb-size-m:%9$dpx;--xvfcb-count:%10$d;--xvfcb-x-m:%11$dpx;--xvfcb-y-m:%12$dpx;--xvfcb-gap-m:%13$dpx;',
 			(int) $s['size'],
 			(int) $s['offset_x'],
 			(int) $s['offset_y'],
@@ -377,7 +382,10 @@ class XVFCB_Frontend {
 			$s['bar_text'],
 			(int) $s['bar_font'],
 			(int) $s['size_mobile'],
-			max( 1, count( $buttons ) )
+			max( 1, count( $buttons ) ),
+			(int) $s['offset_x_mobile'],
+			(int) $s['offset_y_mobile'],
+			(int) $s['gap_mobile']
 		);
 
 		$order = self::bar_order( $buttons );
