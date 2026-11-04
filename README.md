@@ -13,7 +13,8 @@ Nút liên hệ nổi cho WordPress (Gọi, Zalo, Messenger, WhatsApp, Viber, Te
 - Pre-filled messages for WhatsApp, SMS and email with `{title}` / `{url}`
 - `dataLayer` click events for GTM (optional `gtag()`)
 - No external requests, no jQuery on the front end, cache friendly (LiteSpeed Cache, WP Rocket...)
-- Live preview on the settings page, export / import settings
+- Phone / Computer switch on the settings page: separate position, distance, size, spacing and grouping for each device, with a live preview you can hide
+- Export / import settings
 - Built-in Vietnamese interface (Settings → Contact Buttons → Display language)
 
 ## Installation

@@ -32,7 +32,7 @@ XeVN Floating Contact Buttons adds a small stack of contact buttons to the corne
 
 **Made for real visitors**
 
-* Group buttons: show one "Contact us" button that opens the list (on mobile only or on all devices)
+* Group buttons: show one "Contact us" button that opens the list (choose separately for phones and computers)
 * Call button on computers: shows the phone number with a "Copy number" button instead of a tel: link computers cannot open
 * Pre-filled messages for WhatsApp, SMS and email, with {title} and {url} placeholders for the current page
 * Working hours with a weekly schedule (different hours per day, e.g. half-day Saturday): show a button only during or only outside working hours
@@ -41,12 +41,12 @@ XeVN Floating Contact Buttons adds a small stack of contact buttons to the corne
 
 **Easy to set up**
 
-* Live preview: the buttons appear in the corner of the settings page and update as you edit, for phone or computer view
+* Phone / Computer switch on the settings page: each device shows only its own settings, with a live preview in the corner that updates as you edit (and can be hidden)
 * Export and import settings as a .json file to copy them to another website
 
 **Placement and style**
 
-* Bottom right or bottom left, with adjustable distance, size and spacing
+* Bottom right or bottom left, with adjustable distance, size and spacing, set separately for phones and computers
 * On phones, optionally a horizontal bar at the bottom of the screen with labels under each icon and one larger "featured" button raised in the middle
 * Round icons with hover tooltip, or icons with labels
 * Hover colors are generated from your chosen color automatically
@@ -74,7 +74,7 @@ The plugin does not collect, store or send any visitor data. Click tracking only
 
 **Tiếng Việt**
 
-Plugin tạo các nút liên hệ nổi (Gọi, Zalo, Messenger, Viber, WhatsApp, Telegram, Email, SMS, Chỉ đường, link tuỳ ý) ở góc màn hình. Có thêm nút Facebook, TikTok, YouTube, Instagram. Các nút mạng xã hội mặc định dùng logo màu giống icon app; có thể đổi sang logo trắng trên nền màu, biểu tượng đơn giản hoặc tải ảnh riêng lên. Mỗi nút chỉnh được màu, nhãn, hiển thị theo thiết bị và có hiệu ứng rung/sóng để gây chú ý. Có thể gom các nút thành một nút "Liên hệ", hiện số điện thoại kèm nút sao chép khi khách xem trên máy tính, soạn sẵn tin nhắn cho WhatsApp/SMS/Email ẩn/hiện nút theo giờ làm việc, hiện nút sau khi cuộn trang hoặc sau vài giây. Trên điện thoại có thể chọn kiểu thanh ngang ở đáy màn hình, với một nút nổi bật nhô lên ở giữa. Có thể tạo bộ nút riêng cho từng nhóm trang (ví dụ trang xe tải dùng hotline bán hàng, trang dịch vụ dùng số xưởng) và đặt giờ làm việc khác nhau cho từng ngày. Trang cài đặt có xem trước trực tiếp và xuất/nhập cài đặt để chép sang website khác. Có thể ẩn nút trên trang chủ, theo loại nội dung, theo ID hoặc ngay trong màn hình sửa bài. Mỗi lượt bấm được đẩy vào dataLayer để đo lường bằng Google Tag Manager. Vào **Cài đặt → Nút liên hệ**, mục **Ngôn ngữ hiển thị**, chọn **Tiếng Việt** để dùng giao diện tiếng Việt.
+Plugin tạo các nút liên hệ nổi (Gọi, Zalo, Messenger, Viber, WhatsApp, Telegram, Email, SMS, Chỉ đường, link tuỳ ý) ở góc màn hình. Có thêm nút Facebook, TikTok, YouTube, Instagram. Các nút mạng xã hội mặc định dùng logo màu giống icon app; có thể đổi sang logo trắng trên nền màu, biểu tượng đơn giản hoặc tải ảnh riêng lên. Mỗi nút chỉnh được màu, nhãn, hiển thị theo thiết bị và có hiệu ứng rung/sóng để gây chú ý. Có thể gom các nút thành một nút "Liên hệ", hiện số điện thoại kèm nút sao chép khi khách xem trên máy tính, soạn sẵn tin nhắn cho WhatsApp/SMS/Email, ẩn/hiện nút theo giờ làm việc, hiện nút sau khi cuộn trang hoặc sau vài giây. Trên điện thoại có thể chọn kiểu thanh ngang ở đáy màn hình, với một nút nổi bật nhô lên ở giữa. Có thể tạo bộ nút riêng cho từng nhóm trang (ví dụ trang xe tải dùng hotline bán hàng, trang dịch vụ dùng số xưởng) và đặt giờ làm việc khác nhau cho từng ngày. Trang cài đặt có công tắc Điện thoại / Máy tính: mỗi thiết bị có vị trí, khoảng cách mép, kích thước, khoảng cách giữa các nút và gom nhóm riêng, kèm xem trước trực tiếp; có xuất/nhập cài đặt để chép sang website khác. Có thể ẩn nút trên trang chủ, theo loại nội dung, theo ID hoặc ngay trong màn hình sửa bài. Mỗi lượt bấm được đẩy vào dataLayer để đo lường bằng Google Tag Manager. Vào **Cài đặt → Nút liên hệ**, mục **Ngôn ngữ hiển thị**, chọn **Tiếng Việt** để dùng giao diện tiếng Việt.
 
 == Installation ==
 
@@ -134,9 +134,13 @@ The logo shapes for Zalo, Messenger, Viber, WhatsApp, Telegram, Facebook, TikTok
 
 Go to Settings → Contact Buttons → Export / import settings, click "Export settings" to download a .json file, then use "Import settings" on the other website. Importing replaces all settings there.
 
+= Can phones and computers have different settings? =
+
+Yes. At the top of Settings → Contact Buttons, switch between "Phone" and "Computer". Each device has its own position, distance from the edges, button size, spacing between buttons and grouping, and the preview in the corner follows the device you picked. Buttons, working hours, tracking and language are shared. When you update from an earlier build, the phone settings start with your current computer values.
+
 = What does the phone bar look like? =
 
-Choose Settings → Contact Buttons → Style on phones → "Horizontal bar at the bottom of the screen". All buttons sit side by side with their labels; tick "Featured" on one button (for example Call) to make it larger and raised in the middle. The page gets extra space at the bottom so the bar does not cover content. Computers keep the floating buttons.
+Switch to "Phone" at the top of Settings → Contact Buttons, then choose Style on phones → Layout → "Horizontal bar at the bottom of the screen". All buttons sit side by side with their labels; tick "Featured" on one button (for example Call) to make it larger and raised in the middle. The page gets extra space at the bottom so the bar does not cover content. Computers keep the floating buttons.
 
 == Screenshots ==
 
