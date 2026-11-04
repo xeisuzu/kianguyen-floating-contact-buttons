@@ -95,10 +95,9 @@
 	$( '#xvfcb-mobile-style' ).on( 'change', function () {
 		var bar = 'bar' === $( this ).val();
 		$( '.xvfcb-bar-field' ).prop( 'hidden', ! bar );
+		$( '.xvfcb-float-field' ).prop( 'hidden', bar );
 		$( '.xvfcb-featured-field' ).prop( 'hidden', ! bar );
-		if ( bar && 'mobile' !== previewMode ) {
-			$( '.xvfcb-preview-bar [data-xvfcb-preview="mobile"]' ).trigger( 'click' );
-		}
+		updateGroupField();
 	} );
 
 	// Only one featured button per list (works like a radio button).
@@ -113,9 +112,16 @@
 		$( this ).siblings( '.xvfcb-range__value' ).text( $( this ).val() + ( $( this ).data( 'unit' ) || '' ) );
 	} );
 
-	$( '#xvfcb-collapse' ).on( 'change', function () {
-		$( '.xvfcb-group-field' ).prop( 'hidden', 'off' === $( this ).val() );
-	} );
+	// Group button label and color: shown when grouping is used on any device
+	// (phones in the bar style never group).
+	function updateGroupField() {
+		var onDesktop = 'on' === $( '#xvfcb-collapse-desktop' ).val();
+		var onMobile = 'on' === $( '#xvfcb-collapse-mobile' ).val() && 'bar' !== $( '#xvfcb-mobile-style' ).val();
+		$( '.xvfcb-group-field' ).prop( 'hidden', ! onDesktop && ! onMobile );
+	}
+
+	$( '.xvfcb-collapse' ).on( 'change', updateGroupField );
+	updateGroupField();
 
 	function newRow( $list ) {
 		counter += 1;
@@ -322,7 +328,21 @@
 
 	/* ---------- Live preview ---------- */
 
-	var previewMode = 'desktop';
+	// Remembered per browser (only a convenience; the page works without it).
+	function remember( key, value ) {
+		try {
+			if ( undefined === value ) {
+				return window.localStorage.getItem( 'xvfcb_' + key );
+			}
+			window.localStorage.setItem( 'xvfcb_' + key, value );
+		} catch ( e ) {
+			// Storage blocked: keep the defaults.
+		}
+		return null;
+	}
+
+	var previewMode = 'mobile' === remember( 'device' ) ? 'mobile' : 'desktop';
+	var previewHidden = '1' === remember( 'preview_hidden' );
 	var previewTimer = null;
 	var $preview = $( '<div id="xvfcb-preview" class="xvfcb xvfcb--js xvfcb-is-preview" role="group"></div>' ).appendTo( 'body' );
 
@@ -360,7 +380,7 @@
 	function renderPreview() {
 		previewTimer = null;
 		$preview.empty();
-		if ( 'off' === previewMode ) {
+		if ( previewHidden ) {
 			$preview.hide();
 			return;
 		}
@@ -368,12 +388,13 @@
 			var v = parseInt( field( name ).val(), 10 );
 			return isNaN( v ) ? def : v;
 		};
-		var position = field( 'position' ).val() || 'right';
+		var phone = 'mobile' === previewMode;
+		var position = field( phone ? 'position_mobile' : 'position' ).val() || 'right';
 		var layout = field( 'layout' ).val() || 'icon';
 		var animation = field( 'animation' ).val() || 'none';
-		var collapse = field( 'collapse' ).val() || 'off';
-		var tooltip = field( 'show_tooltip' ).is( ':checked' );
-		var bar = 'mobile' === previewMode && 'bar' === field( 'mobile_style' ).val();
+		var collapse = 'on' === field( phone ? 'collapse_mobile' : 'collapse_desktop' ).val() ? 'always' : 'off';
+		var tooltip = ! phone && field( 'show_tooltip' ).is( ':checked' );
+		var bar = phone && 'bar' === field( 'mobile_style' ).val();
 
 		var classes = [ 'xvfcb', 'xvfcb--js', 'xvfcb-is-preview', 'xvfcb-pv-' + previewMode,
 			'xvfcb--' + position, 'xvfcb--layout-' + layout, 'xvfcb--anim-' + animation, 'xvfcb--collapse-' + collapse ];
@@ -388,9 +409,9 @@
 		$preview.attr( 'aria-label', cfg.contactUs || '' );
 		var el = $preview[ 0 ];
 		el.style.setProperty( '--xvfcb-size', ( 'mobile' === previewMode ? num( 'size_mobile', 48 ) : num( 'size', 52 ) ) + 'px' );
-		el.style.setProperty( '--xvfcb-x', num( 'offset_x', 16 ) + 'px' );
-		el.style.setProperty( '--xvfcb-y', num( 'offset_y', 20 ) + 'px' );
-		el.style.setProperty( '--xvfcb-gap', num( 'gap', 10 ) + 'px' );
+		el.style.setProperty( '--xvfcb-x', num( phone ? 'offset_x_mobile' : 'offset_x', 16 ) + 'px' );
+		el.style.setProperty( '--xvfcb-y', num( phone ? 'offset_y_mobile' : 'offset_y', 20 ) + 'px' );
+		el.style.setProperty( '--xvfcb-gap', num( phone ? 'gap_mobile' : 'gap', 10 ) + 'px' );
 		el.style.setProperty( '--xvfcb-bar-bg', field( 'bar_bg' ).val() || '#ffffff' );
 		el.style.setProperty( '--xvfcb-bar-text', field( 'bar_text' ).val() || '#374151' );
 		el.style.setProperty( '--xvfcb-bar-font', ( parseInt( field( 'bar_font' ).val(), 10 ) || 12 ) + 'px' );
@@ -476,12 +497,41 @@
 		}
 	} );
 
-	$( '.xvfcb-preview-bar [data-xvfcb-preview]' ).on( 'click', function () {
-		previewMode = $( this ).data( 'xvfcb-preview' );
-		$( '.xvfcb-preview-bar [data-xvfcb-preview]' ).removeClass( 'is-active' ).attr( 'aria-pressed', 'false' );
-		$( this ).addClass( 'is-active' ).attr( 'aria-pressed', 'true' );
+	/* ---------- Device switch and preview toggle ---------- */
+
+	function setDevice( device ) {
+		previewMode = ( 'mobile' === device ) ? 'mobile' : 'desktop';
+		$( '[data-xvfcb-device]' ).each( function () {
+			var on = $( this ).data( 'xvfcb-device' ) === previewMode;
+			$( this ).toggleClass( 'is-active', on ).attr( 'aria-pressed', on ? 'true' : 'false' );
+		} );
+		$( '[data-xvfcb-panel]' ).each( function () {
+			$( this ).prop( 'hidden', $( this ).data( 'xvfcb-panel' ) !== previewMode );
+		} );
+		remember( 'device', previewMode );
 		renderPreview();
+	}
+
+	function setPreviewHidden( hidden ) {
+		previewHidden = !! hidden;
+		var $eye = $( '[data-xvfcb-eye]' );
+		$eye.attr( 'aria-pressed', previewHidden ? 'true' : 'false' ).toggleClass( 'is-active', previewHidden );
+		$eye.find( '.dashicons' ).toggleClass( 'dashicons-hidden', ! previewHidden ).toggleClass( 'dashicons-visibility', previewHidden );
+		$eye.find( '.xvfcb-eye__text' ).text( previewHidden ? ( cfg.showPreview || 'Show preview' ) : ( cfg.hidePreview || 'Hide preview' ) );
+		remember( 'preview_hidden', previewHidden ? '1' : '0' );
+		renderPreview();
+	}
+
+	$( '.xvfcb-wrap' ).on( 'click', '[data-xvfcb-device]', function () {
+		setDevice( $( this ).data( 'xvfcb-device' ) );
 	} );
+
+	$( '[data-xvfcb-eye]' ).on( 'click', function () {
+		setPreviewHidden( ! previewHidden );
+	} );
+
+	setDevice( previewMode );
+	setPreviewHidden( previewHidden );
 
 	$( '.xvfcb-wrap form[action="options.php"]' ).on( 'input change', schedulePreview );
 	$rows.on( 'click', '.xvfcb-up, .xvfcb-down, .xvfcb-remove', schedulePreview );
