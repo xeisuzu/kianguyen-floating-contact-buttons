@@ -1,5 +1,5 @@
 /**
- * XeVN Floating Contact Buttons - settings page.
+ * Kianguyen Floating Contact Buttons - settings page.
  */
 ( function ( $ ) {
 	'use strict';

@@ -1,5 +1,5 @@
 /**
- * XeVN Floating Contact Buttons - front end.
+ * Kianguyen Floating Contact Buttons - front end.
  *
  * - Group toggle (collapse buttons into one "Contact" button).
  * - Desktop call box: shows the phone number with a copy button instead of
@@ -31,7 +31,7 @@
 		if ( ! config.track ) {
 			return;
 		}
-		var eventName = config.event || 'xevn_contact_click';
+		var eventName = config.event || 'contact_button_click';
 		var data = {
 			button_type: type || link.getAttribute( 'data-xvfcb-type' ) || '',
 			button_label: link.getAttribute( 'data-xvfcb-label' ) || '',

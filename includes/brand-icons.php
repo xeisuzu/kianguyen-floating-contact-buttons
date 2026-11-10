@@ -4,7 +4,7 @@
  * Logos are trademarks of their respective owners and are used only to
  * identify each service. Regenerate when updating Simple Icons.
  *
- * @package XeVN_Floating_Contact_Buttons
+ * @package Kianguyen_Floating_Contact_Buttons
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

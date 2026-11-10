@@ -5,7 +5,7 @@
  * Used only as described in class-xvfcb-i18n.php. Community translations on
  * translate.wordpress.org take priority in "auto" mode.
  *
- * @package XeVN_Floating_Contact_Buttons
+ * @package Kianguyen_Floating_Contact_Buttons
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

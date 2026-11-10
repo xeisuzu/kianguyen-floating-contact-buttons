@@ -1,4 +1,4 @@
-/* XeVN Floating Contact Buttons - front end */
+/* Kianguyen Floating Contact Buttons - front end */
 .xvfcb {
 	position: fixed;
 	bottom: var(--xvfcb-y, 20px);

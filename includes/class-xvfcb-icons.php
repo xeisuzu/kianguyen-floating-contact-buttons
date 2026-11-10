@@ -6,7 +6,7 @@
  * from Simple Icons (CC0 1.0, see includes/brand-icons.php). Site owners can
  * also upload their own icon image per button.
  *
- * @package XeVN_Floating_Contact_Buttons
+ * @package Kianguyen_Floating_Contact_Buttons
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

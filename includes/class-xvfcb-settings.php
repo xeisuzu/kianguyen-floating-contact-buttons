@@ -2,7 +2,7 @@
 /**
  * Settings: defaults, button types, retrieval and sanitization.
  *
- * @package XeVN_Floating_Contact_Buttons
+ * @package Kianguyen_Floating_Contact_Buttons
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -34,102 +34,102 @@ class XVFCB_Settings {
 	public static function types() {
 		return array(
 			'phone'     => array(
-				'label' => __( 'Call', 'xevn-floating-contact-buttons' ),
+				'label' => __( 'Call', 'kianguyen-floating-contact-buttons' ),
 				'icon'  => 'phone',
 				'color' => '#2196f3',
 				'kind'  => 'phone',
-				'hint'  => __( 'Phone number, e.g. 0901234567 or +84901234567', 'xevn-floating-contact-buttons' ),
+				'hint'  => __( 'Phone number, e.g. 0901234567 or +84901234567', 'kianguyen-floating-contact-buttons' ),
 			),
 			'zalo'      => array(
-				'label' => __( 'Zalo', 'xevn-floating-contact-buttons' ),
+				'label' => __( 'Zalo', 'kianguyen-floating-contact-buttons' ),
 				'icon'  => 'chat',
 				'color' => '#0068ff',
 				'kind'  => 'handle',
-				'hint'  => __( 'Zalo phone number or full zalo.me link', 'xevn-floating-contact-buttons' ),
+				'hint'  => __( 'Zalo phone number or full zalo.me link', 'kianguyen-floating-contact-buttons' ),
 			),
 			'messenger' => array(
-				'label' => __( 'Messenger', 'xevn-floating-contact-buttons' ),
+				'label' => __( 'Messenger', 'kianguyen-floating-contact-buttons' ),
 				'icon'  => 'chat-dots',
 				'color' => '#0866ff',
 				'kind'  => 'handle',
-				'hint'  => __( 'Username of your Facebook page or profile (e.g. yourpage), or a full m.me link', 'xevn-floating-contact-buttons' ),
+				'hint'  => __( 'Username of your Facebook page or profile (e.g. yourpage), or a full m.me link', 'kianguyen-floating-contact-buttons' ),
 			),
 			'viber'     => array(
-				'label' => __( 'Viber', 'xevn-floating-contact-buttons' ),
+				'label' => __( 'Viber', 'kianguyen-floating-contact-buttons' ),
 				'icon'  => 'chat-phone',
 				'color' => '#7360f2',
 				'kind'  => 'phone',
-				'hint'  => __( 'Phone number with country code, e.g. +84901234567', 'xevn-floating-contact-buttons' ),
+				'hint'  => __( 'Phone number with country code, e.g. +84901234567', 'kianguyen-floating-contact-buttons' ),
 			),
 			'whatsapp'  => array(
-				'label' => __( 'WhatsApp', 'xevn-floating-contact-buttons' ),
+				'label' => __( 'WhatsApp', 'kianguyen-floating-contact-buttons' ),
 				'icon'  => 'chat-phone',
 				'color' => '#25d366',
 				'kind'  => 'phone',
-				'hint'  => __( 'Phone number with country code, e.g. +84901234567', 'xevn-floating-contact-buttons' ),
+				'hint'  => __( 'Phone number with country code, e.g. +84901234567', 'kianguyen-floating-contact-buttons' ),
 			),
 			'telegram'  => array(
-				'label' => __( 'Telegram', 'xevn-floating-contact-buttons' ),
+				'label' => __( 'Telegram', 'kianguyen-floating-contact-buttons' ),
 				'icon'  => 'plane',
 				'color' => '#26a5e4',
 				'kind'  => 'handle',
-				'hint'  => __( 'Telegram username or full t.me link', 'xevn-floating-contact-buttons' ),
+				'hint'  => __( 'Telegram username or full t.me link', 'kianguyen-floating-contact-buttons' ),
 			),
 			'facebook'  => array(
-				'label' => __( 'Facebook', 'xevn-floating-contact-buttons' ),
+				'label' => __( 'Facebook', 'kianguyen-floating-contact-buttons' ),
 				'icon'  => 'link',
 				'color' => '#0866ff',
 				'kind'  => 'handle',
-				'hint'  => __( 'Facebook page username or full facebook.com link', 'xevn-floating-contact-buttons' ),
+				'hint'  => __( 'Facebook page username or full facebook.com link', 'kianguyen-floating-contact-buttons' ),
 			),
 			'tiktok'    => array(
-				'label' => __( 'TikTok', 'xevn-floating-contact-buttons' ),
+				'label' => __( 'TikTok', 'kianguyen-floating-contact-buttons' ),
 				'icon'  => 'link',
 				'color' => '#000000',
 				'kind'  => 'handle',
-				'hint'  => __( 'TikTok username (e.g. @yourshop) or full tiktok.com link', 'xevn-floating-contact-buttons' ),
+				'hint'  => __( 'TikTok username (e.g. @yourshop) or full tiktok.com link', 'kianguyen-floating-contact-buttons' ),
 			),
 			'youtube'   => array(
-				'label' => __( 'YouTube', 'xevn-floating-contact-buttons' ),
+				'label' => __( 'YouTube', 'kianguyen-floating-contact-buttons' ),
 				'icon'  => 'link',
 				'color' => '#ff0000',
 				'kind'  => 'handle',
-				'hint'  => __( 'YouTube handle (e.g. @yourchannel) or full youtube.com link', 'xevn-floating-contact-buttons' ),
+				'hint'  => __( 'YouTube handle (e.g. @yourchannel) or full youtube.com link', 'kianguyen-floating-contact-buttons' ),
 			),
 			'instagram' => array(
-				'label' => __( 'Instagram', 'xevn-floating-contact-buttons' ),
+				'label' => __( 'Instagram', 'kianguyen-floating-contact-buttons' ),
 				'icon'  => 'link',
 				'color' => '#ff0069',
 				'kind'  => 'handle',
-				'hint'  => __( 'Instagram username or full instagram.com link', 'xevn-floating-contact-buttons' ),
+				'hint'  => __( 'Instagram username or full instagram.com link', 'kianguyen-floating-contact-buttons' ),
 			),
 			'email'     => array(
-				'label' => __( 'Email', 'xevn-floating-contact-buttons' ),
+				'label' => __( 'Email', 'kianguyen-floating-contact-buttons' ),
 				'icon'  => 'mail',
 				'color' => '#f59e0b',
 				'kind'  => 'email',
-				'hint'  => __( 'Email address', 'xevn-floating-contact-buttons' ),
+				'hint'  => __( 'Email address', 'kianguyen-floating-contact-buttons' ),
 			),
 			'sms'       => array(
-				'label' => __( 'SMS', 'xevn-floating-contact-buttons' ),
+				'label' => __( 'SMS', 'kianguyen-floating-contact-buttons' ),
 				'icon'  => 'sms',
 				'color' => '#10b981',
 				'kind'  => 'phone',
-				'hint'  => __( 'Phone number', 'xevn-floating-contact-buttons' ),
+				'hint'  => __( 'Phone number', 'kianguyen-floating-contact-buttons' ),
 			),
 			'map'       => array(
-				'label' => __( 'Directions', 'xevn-floating-contact-buttons' ),
+				'label' => __( 'Directions', 'kianguyen-floating-contact-buttons' ),
 				'icon'  => 'pin',
 				'color' => '#ef4444',
 				'kind'  => 'url',
-				'hint'  => __( 'Map link (e.g. a Google Maps share link)', 'xevn-floating-contact-buttons' ),
+				'hint'  => __( 'Map link (e.g. a Google Maps share link)', 'kianguyen-floating-contact-buttons' ),
 			),
 			'link'      => array(
-				'label' => __( 'Link', 'xevn-floating-contact-buttons' ),
+				'label' => __( 'Link', 'kianguyen-floating-contact-buttons' ),
 				'icon'  => 'link',
 				'color' => '#4b5563',
 				'kind'  => 'url',
-				'hint'  => __( 'Any URL, e.g. your quote request page', 'xevn-floating-contact-buttons' ),
+				'hint'  => __( 'Any URL, e.g. your quote request page', 'kianguyen-floating-contact-buttons' ),
 			),
 		);
 	}
@@ -162,7 +162,7 @@ class XVFCB_Settings {
 			'hide_ids'        => '',
 			'hide_post_types' => array(),
 			'tracking'        => 1,
-			'event_name'      => 'xevn_contact_click',
+			'event_name'      => 'contact_button_click',
 			'gtag'            => 0,
 			'language'        => 'auto',
 			'mobile_style'    => 'float',
@@ -430,7 +430,7 @@ class XVFCB_Settings {
 		$name = isset( $set['name'] ) ? substr( sanitize_text_field( $set['name'] ), 0, 60 ) : '';
 		if ( '' === $name ) {
 			/* translators: %d: set number. */
-			$name = sprintf( __( 'Set %d', 'xevn-floating-contact-buttons' ), $number );
+			$name = sprintf( __( 'Set %d', 'kianguyen-floating-contact-buttons' ), $number );
 		}
 
 		$paths = array();

@@ -7,7 +7,7 @@
  * language is Vietnamese and a string has no community translation yet, or
  * when the administrator explicitly picks Vietnamese.
  *
- * @package XeVN_Floating_Contact_Buttons
+ * @package Kianguyen_Floating_Contact_Buttons
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class XVFCB_I18n {
 
-	const DOMAIN = 'xevn-floating-contact-buttons';
+	const DOMAIN = 'kianguyen-floating-contact-buttons';
 
 	/**
 	 * Built-in Vietnamese strings, loaded on demand.

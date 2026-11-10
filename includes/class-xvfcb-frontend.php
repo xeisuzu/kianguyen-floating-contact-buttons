@@ -6,7 +6,7 @@
  * the output is safe for full-page caches (no AJAX, no nonces, no user agent
  * sniffing).
  *
- * @package XeVN_Floating_Contact_Buttons
+ * @package Kianguyen_Floating_Contact_Buttons
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -281,9 +281,9 @@ class XVFCB_Frontend {
 				'offset' => (int) round( (float) get_option( 'gmt_offset', 0 ) * 60 ),
 			),
 			'i18n'  => array(
-				'copy'   => __( 'Copy number', 'xevn-floating-contact-buttons' ),
-				'copied' => __( 'Copied!', 'xevn-floating-contact-buttons' ),
-				'close'  => __( 'Close', 'xevn-floating-contact-buttons' ),
+				'copy'   => __( 'Copy number', 'kianguyen-floating-contact-buttons' ),
+				'copied' => __( 'Copied!', 'kianguyen-floating-contact-buttons' ),
+				'close'  => __( 'Close', 'kianguyen-floating-contact-buttons' ),
 			),
 		);
 	}
@@ -391,9 +391,9 @@ class XVFCB_Frontend {
 		$order = self::bar_order( $buttons );
 
 		$protocols = array_merge( wp_allowed_protocols(), array( 'viber' ) );
-		$group     = __( 'Contact us', 'xevn-floating-contact-buttons' );
+		$group     = __( 'Contact us', 'kianguyen-floating-contact-buttons' );
 
-		echo "\n<!-- XeVN Floating Contact Buttons -->\n";
+		echo "\n<!-- Kianguyen Floating Contact Buttons -->\n";
 		printf(
 			'<div class="%1$s" style="%2$s" role="group" aria-label="%3$s" data-xvfcb-config="%4$s">',
 			esc_attr( implode( ' ', $classes ) ),
