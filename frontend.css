@@ -1,0 +1,389 @@
+/* Kianguyen Floating Contact Buttons - front end */
+.xvfcb {
+	position: fixed;
+	bottom: var(--xvfcb-y, 20px);
+	z-index: var(--xvfcb-z, 9999);
+	display: flex;
+	flex-direction: column;
+	gap: var(--xvfcb-gap, 10px);
+	margin: 0;
+	padding: 0;
+	pointer-events: none;
+}
+
+.xvfcb--right {
+	right: var(--xvfcb-x, 16px);
+	align-items: flex-end;
+}
+
+.xvfcb--left {
+	left: var(--xvfcb-x, 16px);
+	align-items: flex-start;
+}
+
+.xvfcb .xvfcb__btn {
+	--xvfcb-color: #4b5563;
+	position: relative;
+	isolation: isolate;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	box-sizing: border-box;
+	min-width: var(--xvfcb-size, 52px);
+	height: var(--xvfcb-size, 52px);
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-radius: 999px;
+	background: var(--xvfcb-color);
+	color: #fff;
+	text-decoration: none;
+	font: 600 15px/1.2 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+	pointer-events: auto;
+	cursor: pointer;
+	transition: filter 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+	-webkit-tap-highlight-color: transparent;
+}
+
+.xvfcb .xvfcb__btn:hover,
+.xvfcb .xvfcb__btn:focus-visible {
+	color: #fff;
+	filter: brightness(0.9);
+	transform: translateY(-2px);
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+	text-decoration: none;
+}
+
+.xvfcb .xvfcb__btn:focus-visible {
+	outline: 3px solid rgba(0, 0, 0, 0.35);
+	outline-offset: 2px;
+}
+
+.xvfcb .xvfcb__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	width: calc(var(--xvfcb-size, 52px) * 0.5);
+	height: calc(var(--xvfcb-size, 52px) * 0.5);
+}
+
+.xvfcb .xvfcb__icon svg,
+.xvfcb .xvfcb__icon img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+/* Call, SMS and email icons are wide shapes, so they get a little more room. */
+.xvfcb--layout-icon .xvfcb__btn--phone:not(.xvfcb-custom-icon) .xvfcb__icon,
+.xvfcb--layout-icon .xvfcb__btn--sms:not(.xvfcb-custom-icon) .xvfcb__icon,
+.xvfcb--layout-icon .xvfcb__btn--email:not(.xvfcb-custom-icon) .xvfcb__icon {
+	width: calc(var(--xvfcb-size, 52px) * 0.58);
+	height: calc(var(--xvfcb-size, 52px) * 0.58);
+}
+
+/* Uploaded images are treated like app icons: the image is the button. */
+.xvfcb--layout-icon .xvfcb-custom-icon {
+	background: transparent;
+	box-shadow: none;
+}
+
+.xvfcb--layout-icon .xvfcb-custom-icon:hover,
+.xvfcb--layout-icon .xvfcb-custom-icon:focus-visible {
+	box-shadow: none;
+}
+
+.xvfcb--layout-icon .xvfcb-custom-icon .xvfcb__icon {
+	width: var(--xvfcb-size, 52px);
+	height: var(--xvfcb-size, 52px);
+	filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.25));
+}
+
+.xvfcb--layout-label .xvfcb-custom-icon .xvfcb__icon {
+	width: calc(var(--xvfcb-size, 52px) * 0.7);
+	height: calc(var(--xvfcb-size, 52px) * 0.7);
+}
+
+/* Full-color logos: the logo itself is the button shape. */
+.xvfcb--layout-icon .xvfcb-color-logo {
+	background: transparent;
+	box-shadow: none;
+}
+
+.xvfcb--layout-icon .xvfcb-color-logo:hover,
+.xvfcb--layout-icon .xvfcb-color-logo:focus-visible {
+	box-shadow: none;
+}
+
+.xvfcb--layout-icon .xvfcb-color-logo .xvfcb__icon {
+	width: var(--xvfcb-size, 52px);
+	height: var(--xvfcb-size, 52px);
+	filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.25));
+}
+
+.xvfcb--layout-label .xvfcb-color-logo .xvfcb__icon {
+	box-sizing: border-box;
+	width: calc(var(--xvfcb-size, 52px) * 0.7);
+	height: calc(var(--xvfcb-size, 52px) * 0.7);
+	padding: 3px;
+	border-radius: 50%;
+	background: #fff;
+}
+
+/* Icon-only layout: label is visually hidden (still read by screen readers). */
+.xvfcb--layout-icon .xvfcb__btn {
+	width: var(--xvfcb-size, 52px);
+}
+
+.xvfcb--layout-icon .xvfcb__label {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* Tooltip on devices that can hover. */
+@media (hover: hover) {
+	.xvfcb--tooltip .xvfcb__btn:hover .xvfcb__label,
+	.xvfcb--tooltip .xvfcb__btn:focus-visible .xvfcb__label {
+		top: 50%;
+		width: auto;
+		height: auto;
+		margin: 0;
+		padding: 6px 10px;
+		overflow: visible;
+		clip: auto;
+		border-radius: 6px;
+		background: rgba(17, 24, 39, 0.92);
+		color: #fff;
+		font-size: 13px;
+		transform: translateY(-50%);
+		pointer-events: none;
+	}
+
+	.xvfcb--tooltip.xvfcb--right .xvfcb__btn:hover .xvfcb__label,
+	.xvfcb--tooltip.xvfcb--right .xvfcb__btn:focus-visible .xvfcb__label {
+		right: calc(100% + 10px);
+	}
+
+	.xvfcb--tooltip.xvfcb--left .xvfcb__btn:hover .xvfcb__label,
+	.xvfcb--tooltip.xvfcb--left .xvfcb__btn:focus-visible .xvfcb__label {
+		left: calc(100% + 10px);
+	}
+}
+
+/* Icon + label layout (pill): readable text color picked for each background. */
+.xvfcb--layout-label .xvfcb__btn,
+.xvfcb--layout-label .xvfcb__btn:hover,
+.xvfcb--layout-label .xvfcb__btn:focus-visible,
+.xvfcb .xvfcb__toggle,
+.xvfcb .xvfcb__toggle:hover {
+	color: var(--xvfcb-text, #fff);
+}
+
+/* Icon + label layout (pill). */
+.xvfcb--layout-label .xvfcb__btn {
+	gap: 8px;
+	padding: 0 18px 0 calc(var(--xvfcb-size, 52px) * 0.25);
+}
+
+.xvfcb--layout-label.xvfcb--left .xvfcb__btn {
+	flex-direction: row;
+}
+
+.xvfcb--layout-label .xvfcb__label {
+	white-space: nowrap;
+}
+
+/* Delayed reveal (after scrolling or a few seconds). */
+.xvfcb {
+	transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+/* Hidden only when the script runs (it marks <html> first), so the buttons
+   stay visible without JavaScript. */
+.xvfcb-js .xvfcb.xvfcb--waiting {
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(16px);
+}
+
+/* Button list and group toggle. */
+.xvfcb__list {
+	display: flex;
+	flex-direction: column;
+	align-items: inherit;
+	gap: var(--xvfcb-gap, 10px);
+}
+
+.xvfcb .xvfcb__toggle {
+	display: none;
+	font: inherit;
+	font-weight: 600;
+}
+
+.xvfcb .xvfcb__toggle-close {
+	display: none;
+}
+
+.xvfcb.is-open .xvfcb__toggle-open {
+	display: none;
+}
+
+.xvfcb.is-open .xvfcb__toggle-close {
+	display: inline-flex;
+}
+
+.xvfcb.is-open .xvfcb__toggle {
+	animation: none;
+}
+
+.xvfcb--js.xvfcb--collapse-always .xvfcb__toggle {
+	display: inline-flex;
+}
+
+.xvfcb--js.xvfcb--collapse-always:not(.is-open) .xvfcb__list {
+	display: none;
+}
+
+.xvfcb.is-open .xvfcb__list {
+	animation: xvfcb-open 0.18s ease-out;
+}
+
+@keyframes xvfcb-open {
+	from { opacity: 0; transform: translateY(8px); }
+	to { opacity: 1; transform: translateY(0); }
+}
+
+/* Working hours. */
+.xvfcb .xvfcb-off,
+.xvfcb.xvfcb-empty {
+	display: none !important;
+}
+
+/* Desktop call box. */
+.xvfcb-pop {
+	position: fixed;
+	box-sizing: border-box;
+	min-width: 220px;
+	padding: 14px 16px;
+	border-radius: 12px;
+	background: #fff;
+	color: #111827;
+	font: 400 14px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+	text-align: left;
+}
+
+.xvfcb-pop__label {
+	margin: 0 24px 2px 0;
+	color: #6b7280;
+	font-size: 13px;
+}
+
+.xvfcb-pop .xvfcb-pop__number {
+	display: block;
+	margin: 0 0 10px;
+	color: #111827;
+	font-size: 22px;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	text-decoration: none;
+}
+
+.xvfcb-pop .xvfcb-pop__copy {
+	width: 100%;
+	margin: 0;
+	padding: 8px 12px;
+	border: 0;
+	border-radius: 8px;
+	background: var(--xvfcb-color, #e02424);
+	color: var(--xvfcb-text, #fff);
+	font: inherit;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.xvfcb-pop .xvfcb-pop__copy:hover,
+.xvfcb-pop .xvfcb-pop__copy:focus-visible {
+	filter: brightness(0.9);
+}
+
+.xvfcb-pop .xvfcb-pop__close {
+	position: absolute;
+	top: 6px;
+	right: 8px;
+	margin: 0;
+	padding: 2px 6px;
+	border: 0;
+	background: transparent;
+	color: #6b7280;
+	font-size: 20px;
+	line-height: 1;
+	cursor: pointer;
+}
+
+/* Attention effects. */
+.xvfcb--anim-shake .xvfcb-attn .xvfcb__icon {
+	animation: xvfcb-shake 2.4s ease-in-out infinite;
+}
+
+.xvfcb--anim-pulse .xvfcb-attn::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	background: var(--xvfcb-color);
+	opacity: 0.5;
+	z-index: -1;
+	animation: xvfcb-pulse 1.8s ease-out infinite;
+}
+
+.xvfcb--anim-bounce .xvfcb-attn {
+	animation: xvfcb-bounce 2.4s ease-in-out infinite;
+}
+
+@keyframes xvfcb-shake {
+	0%, 50%, 100% { transform: rotate(0); }
+	5%, 15%, 25% { transform: rotate(-14deg); }
+	10%, 20%, 30% { transform: rotate(14deg); }
+	35% { transform: rotate(0); }
+}
+
+@keyframes xvfcb-pulse {
+	0% { transform: scale(1); opacity: 0.5; }
+	100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes xvfcb-bounce {
+	0%, 40%, 100% { transform: translateY(0); }
+	10% { transform: translateY(-8px); }
+	20% { transform: translateY(0); }
+	28% { transform: translateY(-4px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.xvfcb .xvfcb__btn,
+	.xvfcb .xvfcb__icon,
+	.xvfcb .xvfcb-attn,
+	.xvfcb .xvfcb-attn::before,
+	.xvfcb .xvfcb__list {
+		animation: none !important;
+		transition: none !important;
+	}
+}
+
+@media print {
+	.xvfcb-pop,
+	.xvfcb {
+		display: none !important;
+	}
+}

@@ -2,7 +2,7 @@
 /**
  * Remove plugin data on uninstall.
  *
- * @package XeVN_Floating_Contact_Buttons
+ * @package Kianguyen_Floating_Contact_Buttons
  */
 
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
