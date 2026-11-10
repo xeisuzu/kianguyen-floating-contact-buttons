@@ -1,4 +1,4 @@
-=== XeVN Floating Contact Buttons ===
+=== Kianguyen Floating Contact Buttons ===
 Contributors: kianguyen
 Donate link: https://xeisuzuvn.com/donate/
 Tags: contact button, floating button, click to call, zalo, whatsapp
@@ -13,7 +13,7 @@ Floating call, Zalo, Messenger, WhatsApp, Telegram, Facebook, TikTok and YouTube
 
 == Description ==
 
-XeVN Floating Contact Buttons adds a small stack of contact buttons to the corner of your website so visitors can call, chat or find you in one tap.
+Kianguyen Floating Contact Buttons adds a small stack of contact buttons to the corner of your website so visitors can call, chat or find you in one tap.
 
 **Button types**
 
@@ -59,7 +59,7 @@ XeVN Floating Contact Buttons adds a small stack of contact buttons to the corne
 
 **Click tracking for Google Tag Manager**
 
-Each click pushes an event to `dataLayer` (default name `xevn_contact_click`) with `button_type`, `button_label`, `button_url`, `page_location` and `button_set` (the page-specific set name, or `default`) (copying the number in the desktop call box is sent with `button_type` = `phone_copy`), so you can build GA4 or Google Ads conversions in GTM. Optionally the same event is sent through `gtag()` if gtag.js is already on your page.
+Each click pushes an event to `dataLayer` (default name `contact_button_click`) with `button_type`, `button_label`, `button_url`, `page_location` and `button_set` (the page-specific set name, or `default`) (copying the number in the desktop call box is sent with `button_type` = `phone_copy`), so you can build GA4 or Google Ads conversions in GTM. Optionally the same event is sent through `gtag()` if gtag.js is already on your page.
 
 **Lightweight and cache friendly**
 
@@ -78,7 +78,7 @@ Plugin tạo các nút liên hệ nổi (Gọi, Zalo, Messenger, Viber, WhatsApp
 
 == Installation ==
 
-1. Upload the `xevn-floating-contact-buttons` folder to `/wp-content/plugins/`, or install it from the Plugins screen.
+1. Upload the `kianguyen-floating-contact-buttons` folder to `/wp-content/plugins/`, or install it from the Plugins screen.
 2. Activate the plugin.
 3. Go to **Settings → Contact Buttons**, enter your phone number, Zalo number or other contacts, and save.
 
@@ -90,7 +90,7 @@ A button is shown only when it is enabled and has a phone number, username or li
 
 = How do I track clicks in Google Tag Manager? =
 
-Keep "Push a dataLayer event" on. In GTM, create a Custom Event trigger with the event name `xevn_contact_click` (or the name you set), add Data Layer Variables for `button_type`, `button_label` and `button_url`, then use them in your GA4 event or Google Ads conversion tag.
+Keep "Push a dataLayer event" on. In GTM, create a Custom Event trigger with the event name `contact_button_click` (or the name you set), add Data Layer Variables for `button_type`, `button_label` and `button_url`, then use them in your GA4 event or Google Ads conversion tag.
 
 = How do I use different numbers on different pages? =
 
